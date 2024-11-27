@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  const API_KEY = 'sk-YazEl-7uz32vGvoAEC1OkfXbWC9rVDqOS6HUY5nOkXT3BlbkFJ0YbY8TkdK0vahmvUDqmoJfgQu3NbAKJakVN4ko9boA';
   const submitButton = document.querySelector('#submit');
   const outputElement = document.querySelector('#output');
   const inputElement = document.querySelector('#userInput'); // Textarea element for multiline input
