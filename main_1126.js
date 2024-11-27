@@ -11,11 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
   modal.classList.remove('hidden'); // 確保初始狀態下 `modal` 是顯示的
 
   
-  
-  require('dotenv').config();
-
-  const apiKey = process.env.API_KEY;
-  console.log(apiKey); // Outputs the API key from .env
+ 
 
 
   // 初始狀態下 modal 是顯示的
