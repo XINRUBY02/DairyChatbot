@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let conversationCount = 0; // 記錄對話次數
 
   function updateHistory() {
-    conversationCountDisplay.textContent = `对话次数: ${conversationCount}`;  // 更新对话次数显示
+    conversationCountDisplay.textContent = `對話次數: ${conversationCount}`;  // 更新对话次数显示
   }
 
   // 按句子逐步显示输出
