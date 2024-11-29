@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const API_KEY = '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';
+  const API_KEY = '';
   const submitButton = document.querySelector('#submit');
   const outputElement = document.querySelector('#output');
   const inputElement = document.querySelector('#userInput'); // Textarea element for multiline input
