@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const API_KEY = 'sk-YazEl-7uz32vGvoAEC1OkfXbWC9rVDqOS6HUY5nOkXT3BlbkFJ0YbY8TkdK0vahmvUDqmoJfgQu3NbAKJakVN4ko9boA';
+  const API_KEY = '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';
   const submitButton = document.querySelector('#submit');
   const outputElement = document.querySelector('#output');
   const inputElement = document.querySelector('#userInput'); // Textarea element for multiline input
@@ -92,10 +92,11 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       const response = await fetch('https://api.openai.com/v1/chat/completions', options);
       const data = await response.json();
+
+
+      // Check if choices exist and are not empty
+      if (data.choices && Array.isArray(data.choices) && data.choices.length > 0 && data.choices[0].message) {
       let assistantReply = data.choices[0].message.content;
-
-
-      // Use the displayMessageBySentence function to show the assistant's response
       displayMessageBySentence(assistantReply, 'output');
 
       // 更新界面显示和对话历史
@@ -103,10 +104,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Save the conversation in localStorage after getting the assistant's response
       storeConversation(userInput, assistantReply);
-
+      } else {
+        throw new Error('Invalid API response: choices array is empty or malformed');
+      }
     } catch (error) {
       console.error('Error:', error);
-      outputElement.textContent = `Error retrieving response: ${error.message}`;
+
+      // Handle API authentication failure
+      if (error.response && error.response.status === 401) {
+        outputElement.textContent = 'Authentication failed. Please check your API key.';
+      } else if (error.message.includes('Invalid API response')) {
+        outputElement.textContent = 'The assistant returned an unexpected response. Please try again.';
+      } else {
+        outputElement.textContent = `Error retrieving response: ${error.message}`;
+      }
     }
 
     // 解鎖輸入，允許下一次回應
@@ -188,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
   inputElement.addEventListener('keydown', (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault(); // 防止默認的 Enter 行為
-      getMessage(); // 觸發訊息發送
+      getMessage()// 觸發訊息發送
     }
     // Shift + Enter 會自動允許在 textarea 中換行
 
@@ -208,6 +219,21 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
+//用來縮短文字長度的功能
+function shortenTextBy10Percent(text) {
+  const length = text.length;
+  const shortenedLength = Math.floor(length * 0.9); // 文字長度減少10%
+  return text.substring(0, shortenedLength); // 截斷文字
+}
+
+function displayShortenedText(content) {
+  document.querySelector('#output').textContent = shortenTextBy10Percent(content); // 在 output 顯示縮短的文字
+}
+
+// 假設你有一段文字要顯示
+const originalText = "哈囉您好，我是您的專屬日記機器人，您可以像寫日記一樣放心地在這裡跟我說話 ^.^";
+displayShortenedText(originalText);  // 顯示縮短後的文字
 
 // 假設你有一段文字要顯示
 // Get modal elements
